@@ -6,7 +6,7 @@ Term: Fall 2016
 
 + Team #
 + Team members
-	+ team member 1
+	+ Weichuan Wu
 	+ team member 2
 	+ team member 3
 	+ team member 4
