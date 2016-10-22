@@ -34,12 +34,12 @@ train <- function(dat_train, label_train, par=NULL){
   
   ### Train with gradient boosting model
   if(is.null(par)){
-    depth <- 1
+    depth <- 3
   } else {
     depth <- par$depth
   }
   fit_gbm <- gbm.fit(x=dat_train, y=label_train,
-                     n.trees=2000,
+                     n.trees=500,
                      distribution="bernoulli",
                      interaction.depth=depth, 
                      bag.fraction = 0.5,
