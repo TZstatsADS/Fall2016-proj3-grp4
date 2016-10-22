@@ -4,12 +4,12 @@
 
 Term: Fall 2016
 
-+ Team #
++ Team #4
 + Team members
 	+ Weichuan Wu
 	+ Kyongmook Lim
 	+ Yunyi Zhang
-	+ team member 4
+	+ William Raikes
 	+ team member 5
 + Project summary: In this project, we created a classification engine for images of poodles versus images of fried chickens. 
 	
