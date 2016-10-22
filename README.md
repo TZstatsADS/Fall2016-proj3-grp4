@@ -7,7 +7,7 @@ Term: Fall 2016
 + Team #
 + Team members
 	+ Weichuan Wu
-	+ team member 2
+	+ Kyongmook Lim
 	+ team member 3
 	+ team member 4
 	+ team member 5
