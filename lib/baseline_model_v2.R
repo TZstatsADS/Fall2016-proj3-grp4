@@ -15,62 +15,60 @@ sift_feature=t(P_train[1:k,])
 label<-rep(1,2000)
 label[1:1000]<-0
 
-################################################################################Using PCA to process data
-Sigma=cov(sift_feature)
-Sigma_eigen=eigen(Sigma)
-Gamma=Sigma_eigen$vectors
-P_train=t(Gamma)%*%t(sift_feature)
-k=20
-return_x_train=t(P_train[1:k,])
-save(P_train,file='data_PCA_processed.RData')
-
 ################################################################################SVM classifier
-SVM<-function(xtrain,ytrain,xtest,ytest)
+#SVM have an accurate around 68%.
+accurate_rate<-matrix(data=NA,ncol=10)
+for(i in 1:10)
 {
-  x_mean = apply(as.matrix(x_train),2,mean)
-  x_sd = apply(as.matrix(x_train),2,sd)
-  x_train_norm = matrix(data=0,nrow=nrow(x_train),ncol=ncol(x_train))
-  for (i in 1:nrow(x_train_norm))
-  {
-    x_train_norm[i,] = (x_train[i,]-x_mean)/x_sd
-  }
-  x_test_norm = matrix(data=0,nrow=nrow(x_test),ncol=ncol(x_test))
-  for (i in 1:nrow(x_test))
-  {
-    x_test_norm[i,] = (x_test[i,]-x_mean)/x_sd
-  }
-  y_train_factor=as.factor(y_train)
-  train_data=data.frame(x_train_norm,y_train_factor)
+  sample_rank<-sample(1:nrow(sift_feature),0.8*nrow(sift_feature))
+  x_train<-sift_feature[sample_rank,]
+  x_test<-sift_feature[-sample_rank,]
+  y_train<-label[sample_rank]
+  y_test<-label[-sample_rank]
+  train_data=data.frame(x_train,y_train=as.factor(y_train))
+  train_data$y_train
+
+  library(e1071)
   tune.out=tune(svm ,y_train~.,data=train_data ,kernel ='linear',
-                ranges =list(cost=c(0.001 , 0.01, 0.1, 1)))
+              ranges =list(cost=c(0.01, 0.1,1,10)))
   bestmod =tune.out$best.model
-  ypred=predict (bestmod ,x_test_norm )
-  y_test_factor=as.factor(y_test)
-  #result=list("pred"=ypred,"true"=y_test_factor)
-  result=list("pred"=ypred,"true"=y_test)
-  return(result)
+  ypred=predict (bestmod ,x_test )
+  y_test=as.factor(y_test)
+  result=table(pred=ypred,true=y_test)
+  accurate_rate[i]<-(result[1,1]+result[2,2])/sum(result)
+  print(paste(as.character(i/10*100),'%',' completed',sep=''))
 }
-
-set.seed(1)
-sample_rank<-sample(1:nrow(sift_feature),0.8*nrow(sift_feature))
-x_train<-sift_feature[sample_rank,]
-x_test<-sift_feature[-sample_rank,]
-y_train<-label[sample_rank]
-y_test<-label[-sample_rank]
-train_data=data.frame(x_train,y_train=as.factor(y_train))
-train_data$y_train
-
-library(e1071)
-tune.out=tune(svm ,y_train~.,data=train_data ,kernel ='linear',
-              ranges =list(cost=c(0.01, 0.1)))
-bestmod =tune.out$best.model
-ypred=predict (bestmod ,x_test )
-y_test=as.factor(y_test)
-#result=list("pred"=ypred,"true"=y_test_factor)
-result=table(pred=ypred,true=y_test)
+mean(accurate_rate)
+################################################################################
 
 ################################################################################logistic classifier
-library (ISLR)
-names(Smarket )
-summary (Smarket )
-class(Smarket[,9])
+#the accurate rate is around 67%
+input_data<-data.frame(cbind(sift_feature,label))
+input_data$label<-as.factor(input_data$label)
+glm.fit=glm(label~. ,data=input_data ,family =binomial )
+
+#only extract the colnmn with p value less than 0.5
+temp_data<-input_data[,(summary(glm.fit)$coef[,4]<0.05)[2:20]]
+input_data<-data.frame(cbind(temp_data,label))
+input_data$label<-as.factor(input_data$label)
+
+accurate_rate<-matrix(data=NA,ncol=10)
+for(i in 1:10)
+{
+#set train data and test data
+  sample_rank<-sample(1:nrow(input_data),0.8*nrow(input_data))
+  input_train<-input_data[sample_rank,]
+  input_test<-input_data[-sample_rank,]
+
+#fit the model and calculate the accurate rate
+  glm.fit=glm(label~. ,data=input_train ,family =binomial )
+  glm.probs<-predict(glm.fit,input_test,type='response')
+  glm.pred<-rep(1,nrow(input_test))
+  glm.pred[glm.probs<0.5]<-0
+  result=table(pred=as.factor(glm.pred),true=as.factor(input_test$label))
+  accurate_rate[i]<-(result[1,1]+result[2,2])/sum(result)
+  print(paste(as.character(i/10*100),'%',' completed',sep=''))
+}
+mean(accurate_rate)
+
+#####################################################################################
