@@ -39,8 +39,43 @@ for(i in 1:10)
   print(paste(as.character(i/10*100),'%',' completed',sep=''))
 }
 mean(accurate_rate)
-################################################################################
+################################################################################random forest
+#####error rate is around 30%
+data<-data.frame(cbind(sift_feature,label))
+data$label<-as.factor(data$label)
+#fit_rf <- randomForest(label~.,data=data,type="classification",importance=TRUE)
+#####train
+train<-function(dataset_train){
+  library(randomForest)
+  fit_rf <- randomForest(label~.,data=dataset_train,type="classification",importance=TRUE)
+  return(fit_rf)
+}
 
+#####test
+test<-function(fit_rf,dataset_test){
+  pred<-predict(fit_rf,newdata=dataset_test)
+  return(pred)
+}
+
+#####cv
+cv.function <- function(X.train, K){
+  n <- length(X.train)
+  n.fold <- floor(n/K)
+  s <- sample(rep(1:K, c(rep(n.fold, K-1), n-(K-1)*n.fold)))  
+  cv.error <- rep(NA, K)
+  for (i in 1:K){
+    train.data <- X.train[s != i,]
+    test.data <- X.train[s == i,]
+    fit <- train(train.data)
+    pred <- test(fit,test.data[,1:(length(X.train)-1)])  
+    cv.error[i] <- mean(pred != test.data[,length(X.train)])  
+    print(paste(as.character(i/K*100),'%',' completed',sep=''))
+  }			
+  return(c(mean(cv.error),sd(cv.error)))
+}
+
+result<-cv.function(data,10)
+result
 ################################################################################logistic classifier
 #the accurate rate is around 67%
 input_data<-data.frame(cbind(sift_feature,label))
@@ -71,4 +106,75 @@ for(i in 1:10)
 }
 mean(accurate_rate)
 
-#####################################################################################
+#####################################################################################LDA
+####error rate of LDA is around 33%
+data<-data.frame(cbind(sift_feature,label))
+data$label<-as.factor(data$label)
+train<-function(dataset_train){
+  library(MASS)
+  fit_lda <- lda(label~.,data=dataset_train)
+  return(fit_lda)
+}
+
+#####test
+test<-function(fit_lda,dataset_test){
+  pred<-predict(fit_lda,newdata=dataset_test)
+  return(pred$class)
+}
+
+#####cv
+cv.function <- function(X.train, K){
+  n <- length(X.train)
+  n.fold <- floor(n/K)
+  s <- sample(rep(1:K, c(rep(n.fold, K-1), n-(K-1)*n.fold)))  
+  cv.error <- rep(NA, K)
+  for (i in 1:K){
+    train.data <- X.train[s != i,]
+    test.data <- X.train[s == i,]
+    fit <- train(train.data)
+    pred <- test(fit,test.data[,1:(length(X.train)-1)])  
+    cv.error[i] <- mean(pred != test.data[,length(X.train)])  
+    print(paste(as.character(i/K*100),'%',' completed',sep=''))
+  }			
+  return(c(mean(cv.error),sd(cv.error)))
+}
+
+result<-cv.function(data,10)
+result
+
+#####################################################################################QDA
+####error rate of QDA is around 37.5%
+data<-data.frame(cbind(sift_feature,label))
+data$label<-as.factor(data$label)
+train<-function(dataset_train){
+  library(MASS)
+  fit_qda <- qda(label~.,data=dataset_train)
+  return(fit_qda)
+}
+
+#####test
+test<-function(fit_qda,dataset_test){
+  pred<-predict(fit_qda,newdata=dataset_test)
+  return(pred$class)
+}
+
+#####cv
+cv.function <- function(X.train, K){
+  n <- length(X.train)
+  n.fold <- floor(n/K)
+  s <- sample(rep(1:K, c(rep(n.fold, K-1), n-(K-1)*n.fold)))  
+  cv.error <- rep(NA, K)
+  for (i in 1:K){
+    train.data <- X.train[s != i,]
+    test.data <- X.train[s == i,]
+    fit <- train(train.data)
+    pred <- test(fit,test.data[,1:(length(X.train)-1)])  
+    cv.error[i] <- mean(pred != test.data[,length(X.train)])  
+    print(paste(as.character(i/K*100),'%',' completed',sep=''))
+  }			
+  return(c(mean(cv.error),sd(cv.error)))
+}
+
+result<-cv.function(data,10)
+result
+
