@@ -15,6 +15,10 @@ setwd("C:/Study/Columbia/W4243_Applied_Data_Science/Project3")
 #read data
 sift_feature<-read.csv("sift_features.csv")
 sift_feature<-t(sift_feature)
+load('data_PCA_processed.RData')
+k=20
+sift_feature=t(P_train[1:k,])
+
 
 #create label, 0 represent for chicken and 1 for dog
 label<-rep(1,2000)
@@ -39,7 +43,7 @@ train <- function(dat_train, label_train, par=NULL){
     depth <- par$depth
   }
   fit_gbm <- gbm.fit(x=dat_train, y=label_train,
-                     n.trees=500,
+                     n.trees=2000,
                      distribution="bernoulli",
                      interaction.depth=depth, 
                      bag.fraction = 0.5,
