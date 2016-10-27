@@ -16,7 +16,7 @@ label<-rep(1,2000)
 label[1:1000]<-0
 
 ################################################################################SVM classifier
-#SVM have an accurate around 68%.
+#SVM have an accurate around 69%.
 accurate_rate<-matrix(data=NA,ncol=10)
 for(i in 1:10)
 {
@@ -29,7 +29,7 @@ for(i in 1:10)
   train_data$y_train
 
   library(e1071)
-  tune.out=tune(svm ,y_train~.,data=train_data ,kernel ='linear',
+  tune.out=tune(svm ,y_train~.,data=train_data ,kernel ='radial',
               ranges =list(cost=c(0.01, 0.1,1,10)))
   bestmod =tune.out$best.model
   ypred=predict (bestmod ,x_test )
