@@ -54,6 +54,9 @@ for(i in 1:k)
   save(P_test,file=paste('pixel_test_',as.character(i),'.RData',sep=''))
   print(paste(as.character(i/k*100),'%',' completed',sep=''))
 }
+
+#to select the best num of pca dimension
+#it tunrs out 100 is a good point
 x<-c(1:400)
 y<-matrix(data=NA,ncol=400)
 for(i in x)

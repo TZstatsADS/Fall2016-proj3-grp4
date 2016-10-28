@@ -89,36 +89,9 @@ result<-c(mean(cv.error),sd(cv.error))
 
 
 #The cross validation process for pixel data
-#the error rate is 22.5%
-pixel_feature<-readRDS('image_matrix.rds')
-cv.function <- function(X.train, y.train, d, K){
-  
-  n <- length(y.train)
-  n.fold <- floor(n/K)
-  s <- sample(rep(1:K, c(rep(n.fold, K-1), n-(K-1)*n.fold)))  
-  cv.error <- rep(NA, K)
-  
-  for (i in 1:K){
-    train.data <- X.train[s != i,]
-    train.label <- y.train[s != i]
-    test.data <- X.train[s == i,]
-    test.label <- y.train[s == i]
-    
-    par <- list(depth=d)
-    fit <- train(train.data, train.label, par)
-    pred <- test(fit, test.data)  
-    cv.error[i] <- mean(pred != test.label)  
-    print(paste(as.character(i/K*100),'%',' completed',sep=''))
-  }			
-  return(c(mean(cv.error),sd(cv.error)))
-  
-}
-
-#The main process
-result<-cv.function(pixel_feature,label,1,10)
-
+#the error rate is 22.35%
 k_folds<-10
-k<-20
+k<-100
 set.seed(1)
 s <- sample(rep(1:10, c(rep(200, 10-1), 2000-(10-1)*200))) 
 d<-3
