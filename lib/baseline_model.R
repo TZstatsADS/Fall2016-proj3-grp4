@@ -12,14 +12,6 @@ rm(list = ls())
 #set directory
 setwd("C:/Study/Columbia/W4243_Applied_Data_Science/Project3")
 
-#read data
-sift_feature<-read.csv("sift_features.csv")
-sift_feature<-t(sift_feature)
-load('data_PCA_processed.RData')
-k=20
-sift_feature=t(P_train[1:k,])
-
-
 #create label, 0 represent for chicken and 1 for dog
 label<-rep(1,2000)
 label[1:1000]<-0
@@ -71,7 +63,34 @@ test <- function(fit_train, dat_test){
   return(as.numeric(pred> 0.5))
 }
 
-#The cross validation process
+#the cross validation process for pca processed sift data
+#the error rate is 34.55%
+k_folds<-10
+k<-20
+set.seed(1)
+s <- sample(rep(1:10, c(rep(200, 10-1), 2000-(10-1)*200))) 
+d<-1
+cv.error <- rep(NA, k_folds)
+for(i in 1:k_folds)
+{
+  load(paste('train_',as.character(i),'.RData',sep=''))
+  load(paste('test_',as.character(i),'.RData',sep=''))
+  train.data<-t(P_train[1:k,])
+  test.data<-t(P_test[1:k,])
+  train.label <- label[s != i]
+  test.label <- label[s == i]
+  par <- list(depth=d)
+  fit <- train(train.data, train.label, par)
+  pred <- test(fit, test.data)  
+  cv.error[i] <- mean(pred != test.label)  
+  print(paste(as.character(i/k_folds*100),'%',' completed',sep=''))
+}
+result<-c(mean(cv.error),sd(cv.error))
+
+
+#The cross validation process for pixel data
+#the error rate is 22.5%
+pixel_feature<-readRDS('image_matrix.rds')
 cv.function <- function(X.train, y.train, d, K){
   
   n <- length(y.train)
@@ -96,4 +115,4 @@ cv.function <- function(X.train, y.train, d, K){
 }
 
 #The main process
-result<-cv.function(sift_feature,label,1,10)
+result<-cv.function(pixel_feature,label,1,10)
