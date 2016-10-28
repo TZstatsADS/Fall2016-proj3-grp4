@@ -112,26 +112,4 @@ for(i in 1:k_folds)
 }
 result<-c(mean(cv.error),sd(cv.error))
 
-#The cross validation process for median filter pixel data
-#the error rate is 22.35%
-k_folds<-10
-k<-100
-set.seed(1)
-s <- sample(rep(1:10, c(rep(200, 10-1), 2000-(10-1)*200))) 
-d<-3
-cv.error <- rep(NA, k_folds)
-for(i in 1:k_folds)
-{
-  load(paste('med_filter_pixel_train_',as.character(i),'.RData',sep=''))
-  load(paste('med_filter_pixel_test_',as.character(i),'.RData',sep=''))
-  train.data<-t(P_train[1:k,])
-  test.data<-t(P_test[1:k,])
-  train.label <- label[s != i]
-  test.label <- label[s == i]
-  par <- list(depth=d)
-  fit <- train(train.data, train.label, par)
-  pred <- test(fit, test.data)  
-  cv.error[i] <- mean(pred != test.label)  
-  print(paste(as.character(i/k_folds*100),'%',' completed',sep=''))
-}
-result<-c(mean(cv.error),sd(cv.error))
+
