@@ -65,3 +65,38 @@ for(i in x)
 }
 plot(x,y)
 sum(Sigma_eigen$values[1:100])/sum(Sigma_eigen$values)
+
+
+#######################################################################color feature pca
+load('rgb_feature.RData')
+k<-10
+n <- nrow(rgb_feature)
+n.fold <- floor(n/k)
+set.seed(1)
+s <- sample(rep(1:k, c(rep(n.fold, k-1), n-(k-1)*n.fold))) 
+i<-1
+for(i in 1:k)
+{
+  train.data <- rgb_feature[s != i,]
+  test.data <- rgb_feature[s == i,]
+  Sigma=cov(train.data)
+  Sigma_eigen=eigen(Sigma)
+  Gamma=Sigma_eigen$vectors
+  P_train=t(Gamma)%*%t(train.data)
+  P_test=t(Gamma)%*%t(test.data)
+  save(P_train,file=paste('rgb_train_',as.character(i),'.RData',sep=''))
+  save(P_test,file=paste('rgb_test_',as.character(i),'.RData',sep=''))
+  print(paste(as.character(i/k*100),'%',' completed',sep=''))
+}
+
+#to select the best num of pca dimension
+#it tunrs out 100 is a good point
+x<-c(1:400)
+y<-matrix(data=NA,ncol=400)
+for(i in x)
+{
+  y[i]<-sum(Sigma_eigen$values[1:x[i]])/sum(Sigma_eigen$values)
+}
+plot(x,y)
+sum(Sigma_eigen$values[1:100])/sum(Sigma_eigen$values)
+

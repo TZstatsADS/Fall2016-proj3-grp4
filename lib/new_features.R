@@ -49,6 +49,33 @@ for (i in 1:dim(image_array)[4]){
   print(i)
 }
 
+##############color feature
+source("http://bioconductor.org/biocLite.R")
+biocLite()
+biocLite("EBImage")
+library("EBImage")
+list_images <- dir()
+rgb_feature <- array(0, dim = c(2000, 800))
+i=1
+for (i in 1:2000){
+  img <- readImage(list_images[i])
+  mat <- imageData(img)
+  nR <- 10
+  nG <- 8
+  nB <- 10
+  # Caution: the bins should be consistent across all images!
+  rBin <- seq(0, 1, length.out=nR)
+  gBin <- seq(0, 1, length.out=nG)
+  bBin <- seq(0, 1, length.out=nB)
+  freq_rgb <- as.data.frame(table(factor(findInterval(mat[,,1], rBin), levels=1:nR), 
+                                  factor(findInterval(mat[,,2], gBin), levels=1:nG), 
+                                  factor(findInterval(mat[,,3], bBin), levels=1:nB)))
+  rgb_feature[i,] <- as.numeric(freq_rgb$Freq)/(ncol(mat)*nrow(mat)) # normalization
+  i=i+1
+  print(i)
+}
+
+save(rgb_feature,file="rgb_feature.RData")
 
 
 
