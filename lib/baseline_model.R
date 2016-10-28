@@ -116,3 +116,25 @@ cv.function <- function(X.train, y.train, d, K){
 
 #The main process
 result<-cv.function(pixel_feature,label,1,10)
+
+k_folds<-10
+k<-20
+set.seed(1)
+s <- sample(rep(1:10, c(rep(200, 10-1), 2000-(10-1)*200))) 
+d<-3
+cv.error <- rep(NA, k_folds)
+for(i in 1:k_folds)
+{
+  load(paste('pixel_train_',as.character(i),'.RData',sep=''))
+  load(paste('pixel_test_',as.character(i),'.RData',sep=''))
+  train.data<-t(P_train[1:k,])
+  test.data<-t(P_test[1:k,])
+  train.label <- label[s != i]
+  test.label <- label[s == i]
+  par <- list(depth=d)
+  fit <- train(train.data, train.label, par)
+  pred <- test(fit, test.data)  
+  cv.error[i] <- mean(pred != test.label)  
+  print(paste(as.character(i/k_folds*100),'%',' completed',sep=''))
+}
+result<-c(mean(cv.error),sd(cv.error))
