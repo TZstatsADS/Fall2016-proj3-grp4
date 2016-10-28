@@ -54,4 +54,11 @@ for(i in 1:k)
   save(P_test,file=paste('pixel_test_',as.character(i),'.RData',sep=''))
   print(paste(as.character(i/k*100),'%',' completed',sep=''))
 }
+x<-c(1:400)
+y<-matrix(data=NA,ncol=400)
+for(i in x)
+{
+  y[i]<-sum(Sigma_eigen$values[1:x[i]])/sum(Sigma_eigen$values)
+}
+plot(x,y)
 sum(Sigma_eigen$values[1:100])/sum(Sigma_eigen$values)
