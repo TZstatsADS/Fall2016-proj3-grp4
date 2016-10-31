@@ -6,7 +6,7 @@
 ### Project 3
 ### ADS Spring 2016
 
-feature <- function(img_dir, img_name, data_name=NULL){
+feature <- function(sift_feature_dir,sift_csv_name,img_dir, img_name, data_name=NULL){
   
   ### Construct process features for training/testing images
   ### Sample simple feature: Extract raw pixel values os features
@@ -16,6 +16,16 @@ feature <- function(img_dir, img_name, data_name=NULL){
   
   ### load libraries
   library("EBImage")
+  
+  #read sift feature csv
+  sift_feature<-read.csv(paste0(sift_feature_dir,sift_csv_name,sep=''))
+  sift_feature<-t(sift_feature)
+  
+  #Use the pca to process the sift feature
+  Sigma=cov(sift_feature)
+  Sigma_eigen=eigen(Sigma)
+  Gamma=Sigma_eigen$vectors
+  P=t(Gamma)%*%t(sift_feature)
   
   n_files <- length(list.files(img_dir))
   
