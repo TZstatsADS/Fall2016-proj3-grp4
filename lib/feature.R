@@ -92,10 +92,10 @@ feature <- function(sift_dir,sift_csv_name,img_dir,output_dir){
 
 
 #clear environment
-rm(list = ls())
-feature('C:/Study/Columbia/W4243_Applied_Data_Science/Project3',
-        'sift_features.csv',
-        'C:/Study/Columbia/W4243_Applied_Data_Science/Project3/images',
-        'C:/Study/Columbia/W4243_Applied_Data_Science/Project3')
+#rm(list = ls())
+#feature('C:/Study/Columbia/W4243_Applied_Data_Science/Project3',
+#        'sift_features.csv',
+#        'C:/Study/Columbia/W4243_Applied_Data_Science/Project3/images',
+#        'C:/Study/Columbia/W4243_Applied_Data_Science/Project3')
 
 
