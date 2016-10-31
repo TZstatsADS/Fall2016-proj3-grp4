@@ -6,7 +6,7 @@
 ### Project 3 Group 4
 ### ADS Fall 2016
 
-test <- function(fit_train, dat_test){
+test <- function(fit_train, dat_test_baseline,dat_test_adv){
   
   ### Fit the classfication model with testing data
   
@@ -20,7 +20,7 @@ test <- function(fit_train, dat_test){
   ### load libraries
   library("gbm")
   
-  pred_gbm <- predict(fit_train$gbm_fit, newdata=dat_test, 
+  pred_gbm <- predict(fit_train$gbm_fit, newdata=dat_test_baseline, 
                       n.trees=fit_train$gbm_iter, type="response")
   
   ####################################################################################################
@@ -30,10 +30,10 @@ test <- function(fit_train, dat_test){
   ### load libraries
   library(randomForest)
   
-  pred_rf<-predict(fit_train$rf_fit,newdata=dat_test)
+  pred_rf<-predict(fit_train$rf_fit,newdata=data.frame(dat_test_adv))
   
   ####################################################################################################
   
-  return(list(baseline=as.numeric(pred_gbm> 0.5),adv=as.numeric(pred_rf> 0.5)))
+  return(list(baseline=as.numeric(pred_gbm> 0.5),adv=pred_rf))
 }
 

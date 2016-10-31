@@ -7,7 +7,7 @@
 ### ADS Fall 2016
 
 
-train <- function(data_train,label_train){
+train <- function(data_train,label_train,par=NULL){
   
   ### Train a Gradient Boosting Model (GBM) using PCA processed sift features from training images
   ### Also train a random forest model using PCA processed rgb data
@@ -53,3 +53,17 @@ train <- function(data_train,label_train){
   
   return(list(gbm_fit=fit_gbm, gbm_iter=best_iter,rf_fit=fit_rf))
 }
+
+#clear environment
+rm(list = ls())
+
+#set directory
+setwd("C:/Study/Columbia/W4243_Applied_Data_Science/Project3")
+
+#create label, 1 represent for chicken and 0 for dog
+label<-rep(0,2000)
+label[1:1000]<-1
+
+#load data
+load('feature_eval.RData')
+train_model<-train(feature_eval,label)

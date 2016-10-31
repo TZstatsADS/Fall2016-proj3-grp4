@@ -13,8 +13,8 @@ rm(list = ls())
 setwd("C:/Study/Columbia/W4243_Applied_Data_Science/Project3/Fall2016-proj3-grp4/data")
 
 #create label, 0 represent for chicken and 1 for dog
-label<-rep(1,2000)
-label[1:1000]<-0
+label<-rep(0,2000)
+label[1:1000]<-1
 
 #The train process
 train <- function(dat_train, label_train, par=NULL){
