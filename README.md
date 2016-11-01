@@ -11,9 +11,17 @@ Term: Fall 2016
 	+ Yunyi Zhang
 	+ William Raikes
 	+ Tian Sheng
-+ Project summary: In this project, we created a classification engine for images of poodles versus images of fried chickens. 
++ Project summary: In this project, we created a classification engine for images of poodles versus images of fried chickens. We tried sift features, pixels of resized images and some rgb features we extra from the images, and we also tried different classifers such as GBM, SVM, randomForest or LDA, it turns out that changing the features from sift to piexl or rgb features make a huge improvement in the prediction accuracy. And among all the classifiers, the SVM with kernel radial perferce the best with a cross validation accuracy about 88% using the rgb features. 
 	
-**Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
+**Contribution statement**: ([default](doc/a_note_on_contributions.md)) 
++ Weichuan Wu: 
+
+	+ Built the baseline model and construct other models' structures.
+	+ Use PCA to process the original features data so that speed up the training process.
+	+ Write the feature.R, train.R,test.R ,evaluation.R and main.R so that they can meet the requirements.
+
+
+
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
