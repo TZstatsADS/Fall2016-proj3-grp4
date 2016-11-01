@@ -10,7 +10,7 @@ Term: Fall 2016
 	+ Kyongmook Lim
 	+ Yunyi Zhang
 	+ William Raikes
-	+ team member 5
+	+ Tian Sheng
 + Project summary: In this project, we created a classification engine for images of poodles versus images of fried chickens. 
 	
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
