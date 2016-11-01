@@ -1,0 +1,16 @@
+1.The code is mainly running on Windows 10.
+2.The R version is 3.2.3.
+3.The libraries we are going to use are:
+  (1) EBImage
+       Use the following code to install the EBImage 
+       ###
+       source("http://bioconductor.org/biocLite.R")
+       biocLite()
+       biocLite("EBImage")
+       library("EBImage")
+       ###
+       If you meet any problem, please run R as the administor.
+  (2) gbm
+      It can be installed from tools-install packages and then install from CRAN 
+  (3) randomForest
+      It can be installed from tools-install packages and then install from CRAN 
