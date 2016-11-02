@@ -32,11 +32,6 @@ Term: Fall 2016
 	+ Tested the neuron network classifier with an accuracy of 60%.
 	+ Explored different kinds of filtering methods in OpenCV: bilateral, median, Gaussian, threshold, etc.
 	+ Extracted color features like color histogram and mean color with OpenCV.
-
-
-+ Build the baseline model and construct other models' structures.
-	+ Use PCA to process the original features data so that speed up the training process.
-	+ Write the feature.R, train.R,test.R ,evaluation.R and main.R so that they can meet the requirements.
        
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
