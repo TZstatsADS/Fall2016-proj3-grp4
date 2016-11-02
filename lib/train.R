@@ -7,7 +7,7 @@
 ### ADS Fall 2016
 
 
-train <- function(data_train,label_train,par=NULL){
+train <- function(data_train_baseline,data_train_adv,label_train,par=NULL){
   
   ### Train a Gradient Boosting Model (GBM) using PCA processed sift features from training images
   ### Also train a random forest model using PCA processed rgb data
@@ -30,7 +30,7 @@ train <- function(data_train,label_train,par=NULL){
   } else {
     depth <- par$depth
   }
-  fit_gbm <- gbm.fit(x=data_train$baseline, y=label_train,
+  fit_gbm <- gbm.fit(x=data_train_baseline, y=label_train,
                      n.trees=2000,
                      distribution="bernoulli",
                      interaction.depth=depth, 
@@ -46,7 +46,7 @@ train <- function(data_train,label_train,par=NULL){
   library(randomForest)
   
   ### Train with random forest model  
-  dataset_train=data.frame(data_train$adv,train.label=as.factor(label_train))
+  dataset_train=data.frame(data_train_adv,train.label=as.factor(label_train))
   fit_rf <- randomForest(train.label~.,data=dataset_train,ntree=1500,type="classification",importance=TRUE)
   ####################################################################################################
   
@@ -55,15 +55,17 @@ train <- function(data_train,label_train,par=NULL){
 }
 
 #clear environment
-rm(list = ls())
+#rm(list = ls())
 
 #set directory
-setwd("C:/Study/Columbia/W4243_Applied_Data_Science/Project3")
+#setwd("C:/Study/Columbia/W4243_Applied_Data_Science/Project3")
 
 #create label, 1 represent for chicken and 0 for dog
-label<-rep(0,2000)
-label[1:1000]<-1
+#label_eval<-rep(0,2000)
+#label_eval[1:1000]<-1
+#save(label_eval,file='label_eval.RData')
 
 #load data
-load('feature_eval.RData')
-train_model<-train(feature_eval,label)
+#load('feature_eval.RData')
+#train_model<-train(feature_eval,label)
+#save(train_model,file='train_model.RData')

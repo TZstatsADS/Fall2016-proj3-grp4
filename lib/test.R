@@ -34,6 +34,6 @@ test <- function(fit_train, dat_test_baseline,dat_test_adv){
   
   ####################################################################################################
   
-  return(list(baseline=as.numeric(pred_gbm> 0.5),adv=pred_rf))
+  return(list(baseline=as.numeric(pred_gbm> 0.5),adv=as.numeric(paste(pred_rf))))
 }
 

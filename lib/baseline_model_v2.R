@@ -209,6 +209,34 @@ for(i in 1:k_folds)
 }
 result<-c(mean(cv.error),sd(cv.error))
 
+#4.Using mix pixel as feature, error rate around 13.8%
+
+#folds for cross validation,can be any interger between 1 and 10
+k_folds<-5
+#the pca features number
+k<-100
+set.seed(1)
+s <- sample(rep(1:5, c(rep(400, 5-1), 2000-(5-1)*400)))
+cv.error <- rep(NA, k_folds)
+for(i in 1:k_folds)
+{
+  load(paste('mix_train_',as.character(i),'.RData',sep=''))
+  load(paste('mix_test_',as.character(i),'.RData',sep=''))
+  train.data<-t(P_train[1:k,])
+  test.data<-t(P_test[1:k,])
+  train.label <- label[s != i]
+  test.label <- label[s == i]
+  
+  train.data=data.frame(train.data,train.label=as.factor(train.label))
+  fit <- train(train.data)
+  colnames(test.data)<-colnames(train.data)[1:k]
+  pred <- test(fit,test.data)  
+  test.label=as.factor(test.label)
+  cv.error[i] <- mean(pred != test.label)  
+  print(paste(as.character(i/k_folds*100),'%',' completed',sep=''))
+}
+result<-c(mean(cv.error),sd(cv.error))
+
 
 #####################################################################################LDA
 #1.Using PCA processed SIFT features as feature, error rate around 33.1%.
