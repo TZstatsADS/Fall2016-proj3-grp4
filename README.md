@@ -25,7 +25,7 @@ Term: Fall 2016
 	+ Extract the RGB color feature from the images and test their applicability for classification 
 	+ Combine RGB color feature and SIFT feature together to look for improvement in classification 
 
-+Kyongmook Lim:
++ Kyongmook Lim:
 
         + made presentation powerpoint, and researched about gbm, adaboost, bernoulli 
 
