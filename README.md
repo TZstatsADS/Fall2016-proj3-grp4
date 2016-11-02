@@ -16,12 +16,14 @@ Term: Fall 2016
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) 
 + Weichuan Wu: 
 
-	+ Built the baseline model and construct other models' structures.
+	+ Build the baseline model and construct other models' structures.
 	+ Use PCA to process the original features data so that speed up the training process.
 	+ Write the feature.R, train.R,test.R ,evaluation.R and main.R so that they can meet the requirements.
++ Yunyi Zhang: 
 
-
-
+	+ Use different methods to train classification models on SIFT features and test the models' performance.  
+	+ Extract the RGB color feature from the images and test their applicability for classification 
+	+ Combine RGB color feature and SIFT feature together to look for improvement in classification 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
