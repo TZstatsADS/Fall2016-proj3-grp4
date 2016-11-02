@@ -12,6 +12,8 @@ Term: Fall 2016
 	+ William Raikes
 	+ Tian Sheng
 + Project summary: In this project, we created a classification engine for images of poodles versus images of fried chickens. We tried sift features, pixels of resized images and some rgb features we extra from the images, and we also tried different classifers such as GBM, SVM, randomForest or LDA, it turns out that changing the features from sift to piexl or rgb features make a huge improvement in the prediction accuracy. And among all the classifiers, the SVM with kernel radial perferce the best with a cross validation accuracy about 88% using the rgb features. 
+
++ Attention: We have written an evalution.R in the lib for you to retrain and test our model because our train.R and test.R are little different from the standard one. Please use it as a reference. Thank you.
 	
 **Contribution statement**: ([default](doc/a_note_on_contributions.md)) 
 + Weichuan Wu: 
