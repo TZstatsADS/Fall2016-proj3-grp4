@@ -24,10 +24,9 @@ Term: Fall 2016
 	+ Use different methods to train classification models on SIFT features and test the models' performance.  
 	+ Extract the RGB color feature from the images and test their applicability for classification 
 	+ Combine RGB color feature and SIFT feature together to look for improvement in classification 
++ Kyongmook Lim: 
 
-+ Kyongmook Lim:
-
-        + made presentation powerpoint, and researched about gbm, adaboost, bernoulli 
+	+ made presentation powerpoint, and researched about gbm, adaboost, bernoulli .  
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
